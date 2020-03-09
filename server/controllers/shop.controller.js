@@ -1,6 +1,8 @@
 import formidable from "formidable"
 import fs from "fs"
 
+import Shop from "./../models/user.model"
+
 const create = (req, res, next) => {
   let form = new formidable.IncomingForm()
   form.keepExtensions = true
@@ -33,5 +35,37 @@ const create = (req, res, next) => {
   })
 }
 
-export default { create }
+const list = (req, res) => {
+  Shop.find((err, shops) => {
+
+    if (err) {
+      return res.status(400).json({
+        error: errorHandler.getErrorMessage(err)
+      })
+    }
+
+    res.json(shops)
+  })
+}
+
+const listByOwner = (req, res) => {
+
+  Shop.find({ owner: req.profile._id }, (err, shops) => {
+
+    if (err) {
+      return res.status(400).json({
+        error: errorHandler.getErrorMessage(err)
+      })
+    }
+
+    res.json(shops)
+  }).populate("owner", "_id name")
+}
+
+
+export default { 
+  create,
+  list,
+  listByOwner
+}
 

@@ -4,12 +4,25 @@ const create = async (params, credentials, shop) => {
     let response = await fetch("/api/shops/by/" + params.userId, {
       method: "POST",
       headers: {
-        "Accept": "application/json",
-        "Authorization": "Bearer " + credentials.t
+        Accept: "application/json",
+        Authorization: "Bearer " + credentials.t
       },
       body: shop
+    });
+    return response.json()
+  } catch (err) {
+    console.log(err)
+  }
+
+}
+
+const list = async () => {
+
+  try {
+    const response = await fetch("/api/shops", {
+      method: "GET",
     })
-    return await response.json()
+    return response.json()
   }
   catch (err) {
     return console.log(err)
@@ -17,4 +30,26 @@ const create = async (params, credentials, shop) => {
 
 }
 
-export { create }
+const listByOwner = async (params, credentials, signal) => {
+
+  try {
+    let response = await fetch("/api/shops/by/" + params.userId, {
+      method: "GET",
+      signal: signal,
+      headers: {
+        "Accept": "application/json",
+        "Authorization": "Bearer " + credentials.t
+      }
+    })
+    return response.json()
+  } catch (err) {
+    console.log(err)
+  }
+
+}
+
+export { 
+  create,
+  list,
+  listByOwner
+}

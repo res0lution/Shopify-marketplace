@@ -9,20 +9,26 @@ import Profile from "./user/Profile"
 import EditProfile from "./user/EditProfile"
 import PrivateRoute from "./auth/PrivateRoute"
 import Menu from "./core/Menu"
+import NewShop from "./shop/NewShop"
+import Shops from "./shop/Shops"
+import MyShops from "./shop/MyShops"
 
 const MainRouter = () => {
 
   return (
     <div>
       <Menu />
-    
+
       <Switch>
-        <PrivateRoute path="/user/edit/:userId" component={EditProfile}/>
-        <Route path="/user/:userId" component={Profile}/>
-        <Route path="/users" component={Users}/>
-        <Route path="/signup" component={SignUp}/>
-        <Route path="/signin" component={SignIn}/>
-        <Route exact path="/" component={Home}/>
+        <PrivateRoute path="/seller/shop/new" component={NewShop} />
+        <PrivateRoute path="/user/edit/:userId" component={EditProfile} />
+        <PrivateRoute path="/seller/shops" component={MyShops} />
+        <Route path="/shops/all" component={Shops} />
+        <Route path="/user/:userId" component={Profile} />
+        <Route path="/users" component={Users} />
+        <Route path="/signup" component={SignUp} />
+        <Route path="/signin" component={SignIn} />
+        <Route exact path="/" component={Home} />
       </Switch>
     </div>
   )
