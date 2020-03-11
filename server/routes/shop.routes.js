@@ -7,6 +7,7 @@ import shopCtrl from "../controllers/shop.controller"
 const router = express.Router()
 
 router.param("userId", userCtrl.userByID)
+router.param("shopId", shopCtrl.shopByID)
 
 router.route("/api/shops/by/:userId")
   .post(
@@ -24,6 +25,23 @@ router.route("/api/shops/by/:userId")
     authCtrl.requireSignin, 
     authCtrl.hasAuthorization, 
     shopCtrl.listByOwner
+  )
+
+router.route("/api/shop/:shopId")
+  .get(shopCtrl.read)
+
+router.route("/api/shops/:shopId")
+  .put(
+    authCtrl.requireSignin, 
+    shopCtrl.isOwner, 
+    shopCtrl.update
+  )
+
+router.route("/api/shops/:shopId")
+  .delete(
+    authCtrl.requireSignin, 
+    shopCtrl.isOwner, 
+    shopCtrl.remove
   )
 
 export default router

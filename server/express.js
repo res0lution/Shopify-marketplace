@@ -14,6 +14,7 @@ import MainRouter from "./../client/MainRouter"
 import userRoutes from "./routes/user.routes"
 import authRoutes from "./routes/auth.routes"
 import shopRoutes from "./routes/shop.routes"
+import productRoutes from "./routes/product.routes"
 import index from "../index"
 import devBundle from "./devBundel"
 import theme from "./../client/Theme"
@@ -33,6 +34,7 @@ app.use("/dist", express.static(path.join(CURRENT_WORKING_DIR, "dist")))
 app.use("/", userRoutes)
 app.use("/", authRoutes)
 app.use("/", shopRoutes)
+app.use("/", productRoutes)
 
 app.get("*", (req, res) => {
   

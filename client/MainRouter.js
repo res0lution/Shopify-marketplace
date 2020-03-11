@@ -12,6 +12,9 @@ import Menu from "./core/Menu"
 import NewShop from "./shop/NewShop"
 import Shops from "./shop/Shops"
 import MyShops from "./shop/MyShops"
+import Shop from "./shop/Shop"
+import EditShop from "./shop/Shop"
+import NewProduct from "./shop/NewProduct"
 
 const MainRouter = () => {
 
@@ -20,9 +23,12 @@ const MainRouter = () => {
       <Menu />
 
       <Switch>
+        <PrivateRoute path="/seller/:shopId/products/new" component={NewProduct} />
+        <PrivateRoute path="/seller/shop/edit/:shopId" component={EditShop} />
         <PrivateRoute path="/seller/shop/new" component={NewShop} />
         <PrivateRoute path="/user/edit/:userId" component={EditProfile} />
         <PrivateRoute path="/seller/shops" component={MyShops} />
+        <Route path="/shops/:shopId" component={Shop} />
         <Route path="/shops/all" component={Shops} />
         <Route path="/user/:userId" component={Profile} />
         <Route path="/users" component={Users} />

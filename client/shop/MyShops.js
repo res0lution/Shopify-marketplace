@@ -20,7 +20,7 @@ import {
 import auth from "./../auth/auth-helper"
 import { listByOwner } from "./api-shop.js"
 import Edit from "@material-ui/icons/Edit"
-/*import DeleteShop from "./DeleteShop"*/
+import DeleteShop from "./DeleteShop"
 
 const useStyles = makeStyles(theme => ({
   title: {
@@ -106,7 +106,7 @@ const MyShops = () => {
                           </IconButton>
                         </Link>
 
-                        {/*<DeleteShop shop={shop} onRemove={removeShop} />*/}
+                        <DeleteShop shop={shop} onRemove={removeShop} />
                         </ListItemSecondaryAction>
                       )
                     }

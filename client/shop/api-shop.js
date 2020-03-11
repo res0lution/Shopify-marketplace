@@ -48,8 +48,49 @@ const listByOwner = async (params, credentials, signal) => {
 
 }
 
+const read = (params, credentials) => {
+  return fetch("/api/shop/" + params.shopId, {
+    method: "GET"
+  }).then( response => {
+    return response.json()
+  }).catch( err => console.log(err))
+}
+
+const update = (params, credentials, shop) => {
+  return fetch("/api/shops/" + params.shopId, {
+    method: "PUT",
+    headers: {
+      "Accept": "application/json",
+      "Authorization": "Bearer " + credentials.t
+    },
+    body: shop
+  }).then( response => {
+    return response.json()
+  }).catch( err => {
+    console.log(err)
+  })
+}
+
+const remove = (params, credentials) => {
+  return fetch("/api/shops/" + params.shopId, {
+    method: "DELETE",
+    headers: {
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + credentials.t
+    }
+  }).then( response => {
+    return response.json()
+  }).catch( err => {
+    console.log(err)
+  })
+}
+
 export { 
   create,
   list,
-  listByOwner
+  listByOwner,
+  read,
+  update,
+  remove
 }
