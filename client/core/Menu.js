@@ -8,7 +8,8 @@ import {
   Toolbar, 
   IconButton,
   Button,
-  Typography
+  Typography,
+  Badge
 } from "@material-ui/core"
 import { Home } from "@material-ui/icons"
 
@@ -61,6 +62,15 @@ const Menu = () => {
           <Link className={classes.link} to="/users">
             <Button style={isActive(history, "/users")}>Users</Button>
           </Link>
+
+          <Link to="/cart">
+            <Button style={isActive(history, "/cart")}>
+              Cart
+                <Badge color="secondary" badgeContent={cart.itemTotal()} style={{ "marginLeft": "7px" }}>
+                <CartIcon />
+              </Badge>
+            </Button>
+          </Link> 
 
           {!auth.isAuthenticated() && (
             <span>

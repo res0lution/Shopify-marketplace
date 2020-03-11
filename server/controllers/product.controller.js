@@ -52,7 +52,111 @@ const listByShop = async (req, res) => {
 
 }
 
+const listLatest = async (req, res) => {
+  
+  try {
+    let products = await Product.find({})
+      .sort("-created")
+      .limit(5)
+      .populate("shop", "_id name")
+      .exec()
+    res.json(products)
+  } catch (err) {
+    return res.status(400).json({
+      error: errorHandler.getErrorMessage(err)
+    })
+  }
+
+}
+
+const productByID = async (req, res, next, id) => {
+
+  try {
+    let product = await Product.findById(id)
+      .populate("shop", "_id name")
+      .exec()
+
+    if (!product) {
+      return res.status(400).json({
+        error: "Product not found"
+      })
+    }
+
+    req.product = product
+    next()
+  } catch (err) {
+    return res.status("400").json({
+      error: "Could not retrieve product"
+    })
+  }
+}
+
+const listRelated = async (req, res) => {
+
+  try {
+    let products = await Product.find(
+      { "_id": { "$ne": req.product }, "category": req.product.category }
+    ).limit(5)
+      .populate("shop", "_id name").exec()
+    res.json(products)
+  } catch (err) {
+    return res.status(400).json({
+      error: errorHandler.getErrorMessage(err)
+    })
+  }
+
+}
+
+const read = (req, res) => {
+  req.product.image = undefined
+  return res.json(req.product)
+}
+
+const listCategories = async (req, res) => {
+
+  try {
+    let products = await Product.distinct("category", {})
+    res.json(products)
+  } catch (err) {
+    return res.status(400).json({
+      error: errorHandler.getErrorMessage(err)
+    })
+  }
+
+}
+
+const list = async (req, res) => {
+  const query = {}
+
+  if (req.query.search) {
+    query.name = { '$regex': req.query.search, '$options': "i" }
+  }
+
+  if (req.query.category && req.query.category != "All") {
+    query.category = req.query.category
+  }
+
+  try {
+    let products = await Product.find(query)
+      .populate("shop", "_id name")
+      .select("-image")
+      .exec()
+    res.json(products)
+  } catch (err) {
+    return res.status(400).json({
+      error: errorHandler.getErrorMessage(err)
+    })
+  }
+
+}
+
 export {
   create,
   listByShop,
+  listLatest,
+  productByID,
+  listRelated,
+  read,
+  listCategories,
+  list
 }
